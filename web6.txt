@@ -1,0 +1,139 @@
+6.Calculator
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f9f9f9;
+        }
+        .calculator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input, select, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+        #result.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        #result.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Simple Calculator</h1>
+        <form id="calculator-form">
+            <input type="number" id="num1" placeholder="Enter first number" required>
+            <input type="number" id="num2" placeholder="Enter second number" required>
+            <select id="operation" required>
+                <option value="">Select Operation</option>
+                <option value="sum">Sum</option>
+                <option value="product">Product</option>
+                <option value="difference">Difference</option>
+                <option value="remainder">Remainder</option>
+                <option value="quotient">Quotient</option>
+                <option value="power">Power</option>
+                <option value="sqrt">Square Root</option>
+                <option value="square">Square</option>
+            </select>
+            <button type="button" onclick="calculate()">Calculate</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            const resultDiv = document.getElementById('result');
+            let result = '';
+            let isError = false;
+
+            if (isNaN(num1) || isNaN(num2)) {
+                result = 'Please enter valid numbers.';
+                isError = true;
+            } else {
+                switch (operation) {
+                    case 'sum':
+                        result = `Sum: ${num1 + num2}`;
+                        break;
+                    case 'product':
+                        result = `Product: ${num1 * num2}`;
+                        break;
+                    case 'difference':
+                        result = `Difference: ${num1 - num2}`;
+                        break;
+                    case 'remainder':
+                        result = `Remainder: ${num1 % num2}`;
+                        break;
+                    case 'quotient':
+                        result = num2 === 0 ? 'Cannot divide by zero.' : `Quotient: ${num1 / num2}`;
+                        isError = num2 === 0;
+                        break;
+                    case 'power':
+                        result = `Power: ${Math.pow(num1, num2)}`;
+                        break;
+                    case 'sqrt':
+                        result = num1 < 0 || num2 < 0 
+                            ? 'Square root is not defined for negative numbers.' 
+                            : `Square Root of ${num1}: ${Math.sqrt(num1)}<br>Square Root of ${num2}: ${Math.sqrt(num2)}`;
+                        isError = num1 < 0 || num2 < 0;
+                        break;
+                    case 'square':
+                        result = `Square of ${num1}: ${num1 ** 2}<br>Square of ${num2}: ${num2 ** 2}`;
+                        break;
+                    default:
+                        result = 'Please select an operation.';
+                        isError = true;
+                }
+            }
+
+            resultDiv.innerHTML = result;
+            resultDiv.className = isError ? 'error' : 'success';
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
